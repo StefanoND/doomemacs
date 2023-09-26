@@ -37,7 +37,7 @@
        doom-quit         ; DOOM quit-message prompts when you quit Emacs
        (emoji +ascii +github)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-       ;;hydra
+       hydra
        indent-guides     ; highlighted indent columns
        (ligatures +fira) ; ligatures and symbols to make your code pretty again
        minimap           ; show a map of the code on the side
@@ -84,7 +84,7 @@
 
        :checkers
        (syntax +childframe)              ; tasing you for every semicolon you forget
-       (spell +aspell +flyspell +enchant +hunspell) ; tasing you for misspelling mispelling
+       (spell +flyspell +everywhere +hunspell) ; tasing you for misspelling mispelling
        (grammar +lsp)           ; tasing grammar mistake every you make
 
        :tools

@@ -21,8 +21,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+(setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'normal)
+      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 15))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -39,10 +39,26 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq-default c-set-style "k&r")
+(setq-default c-basic-offset 4)
+
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
-
+;; (setq org-directory "~/org/")
+(after! org
+  (setq org-directory "~/Documents/org/")
+  (setq org-agenda-files '("~/Documents/org/agenda.org"))
+  ;;(setq org-log-done 'time) ;; Timestamp when finish stuff
+  (setq org-log-done 'note) ;; Timestamp AND write note when finish stuff
+  (setq org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "VIDEO(v)" "WAIT(w)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)")
+                            (sequence "|" "DONE(d)" "CANCELLED(c)" "|" "KILL(k)")
+                            (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
+                            (sequence "|" "OKAY(o)" "yes(y)" "|" "NO(n)")))
+  (require 'org-bullets)
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  )
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -103,7 +119,7 @@
 
 ;; Increase LSP performance
 (after! lsp-mode
-  (setq lsp-idle-delay 0.0
+  (setq lsp-idle-delay 1.0
         lsp-log-io nil
         gc-cons-threshold (* 1024 1024 100))) ;; 100MiB
 
@@ -118,14 +134,31 @@
                              (list :type "gdb"
                                    :request "launch"
                                    :name "GDB::Run"
-                           :gdbpath "rust-gdb"
+                                   :gdbpath "rust-gdb"
                                    :target nil
                                    :cwd nil))
 
 (setq fancy-splash-image (expand-file-name "assets/gigachad.png" doom-user-dir))
 
 (require 'winum)
-    (winum-mode)
+(winum-mode)
 
 (require 'company-box)
-    (add-hook 'company-mode-hook 'company-box-mode)
+(add-hook 'company-mode-hook 'company-box-mode)
+
+(with-eval-after-load "ispell"
+  ;; Configure `LANG`, otherwise ispell.el cannot find a 'default
+  ;; dictionary' even though multiple dictionaries will be configured
+  ;; in next line.
+  (setenv "LANG" "en_US.UTF-8")
+  (setq ispell-program-name "hunspell")
+  ;; Configure German, Swiss German, and two variants of English.
+  (setq ispell-dictionary "en_US,en_GB,pt_BR")
+  ;; ispell-set-spellchecker-params has to be called
+  ;; before ispell-hunspell-add-multi-dic will work
+  (ispell-set-spellchecker-params)
+  (ispell-hunspell-add-multi-dic "en_US,en_GB,pt_BR")
+  ;; For saving words to the personal dictionary, don't infer it from
+  ;; the locale, otherwise it would save to ~/.hunspell_de_DE.
+  (setq ispell-personal-dictionary "~/.hunspell_personal")
+  )
