@@ -17,6 +17,8 @@
 ;; I add some special stuff wich I want to load very early.
 (load! "pseudo-early-init.el")
 
+(setenv "FrameworkPathOverride" "/lib/mono/4.5")
+
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
        ;;chinese

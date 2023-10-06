@@ -55,3 +55,6 @@
 (package! org-bullets)
 (package! ispell)
 ;;(package! erefactor)
+(straight-use-package
+ '(unity :type git :host github :repo "elizagamedev/unity.el"))
+(add-hook 'after-init-hook #'unity-mode)
