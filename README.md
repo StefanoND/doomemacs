@@ -1,3 +1,1 @@
-# Not using this repo anymore
-
-## Using my own config [stemacs](https://github.com/StefanoND/stemacs)
+## Using this repo and my own config [stemacs](https://github.com/StefanoND/stemacs)
